@@ -3,6 +3,7 @@ using Moq;
 using EmployeeManagementAPI.Repositories;
 using EmployeeManagementAPI.Services;
 using EmployeeManagementAPI.Models;
+using EmployeeManagementAPI.Contracts;
 
 namespace EmployeeManagementAPITests.Services
 {
@@ -101,6 +102,30 @@ namespace EmployeeManagementAPITests.Services
             Assert.That(result.Department, Is.EqualTo(newEmployee.Department));
         }
 
+        [Test]
+        public async Task UpdateEmployeeAsync_UpdatesExistingEmployee()
+        {
+            // Arrange
+            var existingEmployee = new Employee
+            {
+                Id = 1,
+                Name = "John Doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+
+            var employeeRequest = new EmployeeRequest("Updated John Doe", "updated.john@example.com", new DateTime(1990, 1, 1), "HR");
+
+            _mockRepository.Setup(repo => repo.GetEmployeeByIdAsync(existingEmployee.Id))
+                           .ReturnsAsync(existingEmployee);
+
+            // Act
+            await _service.UpdateEmployeeAsync(existingEmployee, employeeRequest);
+
+            // Assert
+            _mockRepository.Verify(repo => repo.UpdateEmployeeAsync(existingEmployee, employeeRequest), Times.Once);
+        }
 
 
     }
