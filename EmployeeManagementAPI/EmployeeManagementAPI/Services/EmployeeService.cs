@@ -2,6 +2,7 @@
 
 using EmployeeManagementAPI.Models;
 using EmployeeManagementAPI.Repositories;
+using EmployeeManagementAPI.Contracts;
 
 namespace EmployeeManagementAPI.Services
 {
@@ -29,9 +30,10 @@ namespace EmployeeManagementAPI.Services
             return await _repository.AddEmployeeAsync(employee);
         }
 
-        public async Task UpdateEmployeeAsync(Employee employee)
+        public async Task UpdateEmployeeAsync(Employee employee,
+            EmployeeRequest employeeRequest)
         {
-            await _repository.UpdateEmployeeAsync(employee);
+            await _repository.UpdateEmployeeAsync(employee, employeeRequest);
         }
 
         public async Task DeleteEmployeeAsync(int id)

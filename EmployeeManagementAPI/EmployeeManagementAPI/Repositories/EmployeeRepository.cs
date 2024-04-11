@@ -2,6 +2,7 @@
 
 using EmployeeManagementAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using EmployeeManagementAPI.Contracts;
 
 namespace EmployeeManagementAPI.Repositories
 {
@@ -31,9 +32,15 @@ namespace EmployeeManagementAPI.Repositories
             return employee;
         }
 
-        public async Task UpdateEmployeeAsync(Employee employee)
+        public async Task UpdateEmployeeAsync(Employee existingEmployee,
+            EmployeeRequest employeeRequest)
         {
-            _context.Entry(employee).State = EntityState.Modified;
+            // Update the employee properties with values from the request body
+            existingEmployee.Name = employeeRequest.Name;
+            existingEmployee.Email = employeeRequest.Email;
+            existingEmployee.DateOfBirth = employeeRequest.DateOfBirth;
+            existingEmployee.Department = employeeRequest.Department;
+            _context.Entry(existingEmployee).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 

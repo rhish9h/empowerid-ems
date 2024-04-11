@@ -59,13 +59,7 @@ namespace EmployeeManagementAPI.Controllers
                 return NotFound($"Employee with ID {id} not found.");
             }
 
-            // Update the employee properties with values from the request body
-            existingEmployee.Name = employeeRequest.Name;
-            existingEmployee.Email = employeeRequest.Email;
-            existingEmployee.DateOfBirth = employeeRequest.DateOfBirth;
-            existingEmployee.Department = employeeRequest.Department;
-
-            await _service.UpdateEmployeeAsync(existingEmployee);
+            await _service.UpdateEmployeeAsync(existingEmployee, employeeRequest);
             return NoContent();
         }
 
