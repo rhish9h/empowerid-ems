@@ -1,3 +1,4 @@
+using EmployeeManagementAPI.Contracts;
 using EmployeeManagementAPI.Models;
 using EmployeeManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,21 +35,37 @@ namespace EmployeeManagementAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        public async Task<ActionResult<Employee>> PostEmployee(EmployeeRequest employeeRequest)
         {
+            // Map the EmployeeRequest to the Employee model
+            var employee = new Employee
+            {
+                Name = employeeRequest.Name,
+                Email = employeeRequest.Email,
+                DateOfBirth = employeeRequest.DateOfBirth,
+                Department = employeeRequest.Department
+            };
             var newEmployee = await _service.AddEmployeeAsync(employee);
             return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, Employee employee)
+        public async Task<IActionResult> PutEmployee(int id, EmployeeRequest employeeRequest)
         {
-            if (id != employee.Id)
+            // Retrieve the employee from the database
+            var existingEmployee = await _service.GetEmployeeByIdAsync(id);
+            if (existingEmployee == null)
             {
-                return BadRequest();
+                return NotFound($"Employee with ID {id} not found.");
             }
 
-            await _service.UpdateEmployeeAsync(employee);
+            // Update the employee properties with values from the request body
+            existingEmployee.Name = employeeRequest.Name;
+            existingEmployee.Email = employeeRequest.Email;
+            existingEmployee.DateOfBirth = employeeRequest.DateOfBirth;
+            existingEmployee.Department = employeeRequest.Department;
+
+            await _service.UpdateEmployeeAsync(existingEmployee);
             return NoContent();
         }
 
