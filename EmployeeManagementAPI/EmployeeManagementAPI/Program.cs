@@ -2,6 +2,7 @@
 using EmployeeManagementAPI.Models;
 using EmployeeManagementAPI.Repositories;
 using EmployeeManagementAPI.Services;
+using EmployeeManagementAPI.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.Run();
 

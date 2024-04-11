@@ -80,6 +80,13 @@ namespace EmployeeManagementAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
+            // Retrieve the employee from the database
+            var existingEmployee = await _service.GetEmployeeByIdAsync(id);
+            if (existingEmployee == null)
+            {
+                return NotFound($"Employee with ID {id} not found.");
+            }
+
             await _service.DeleteEmployeeAsync(id);
             return NoContent();
         }

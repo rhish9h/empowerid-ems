@@ -29,11 +29,13 @@
     <None Remove="Contracts\" />
     <None Remove="Repositories\" />
     <None Remove="Services\" />
+    <None Remove="Errors\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Contracts\" />
     <Folder Include="Repositories\" />
     <Folder Include="Services\" />
+    <Folder Include="Errors\" />
   </ItemGroup>
 </Project>
