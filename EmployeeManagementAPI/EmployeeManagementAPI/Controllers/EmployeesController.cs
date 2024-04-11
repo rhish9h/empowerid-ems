@@ -1,26 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EmployeeManagementAPI.Models;
 
 namespace EmployeeManagementAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/employees")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class EmployeesController : ControllerBase
     {
         private readonly EmployeeContext _context;
 
-        public EmployeeController(EmployeeContext context)
+        public EmployeesController(EmployeeContext context)
         {
             _context = context;
         }
 
-        // GET: api/Employee
+        // GET: api/employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
@@ -31,7 +26,7 @@ namespace EmployeeManagementAPI.Controllers
             return await _context.Employees.ToListAsync();
         }
 
-        // GET: api/Employee/5
+        // GET: api/employees/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
@@ -49,8 +44,7 @@ namespace EmployeeManagementAPI.Controllers
             return employee;
         }
 
-        // PUT: api/Employee/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/employees/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee(int id, Employee employee)
         {
@@ -80,8 +74,7 @@ namespace EmployeeManagementAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Employee
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/employees
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
@@ -95,7 +88,7 @@ namespace EmployeeManagementAPI.Controllers
             return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
         }
 
-        // DELETE: api/Employee/5
+        // DELETE: api/employees/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
