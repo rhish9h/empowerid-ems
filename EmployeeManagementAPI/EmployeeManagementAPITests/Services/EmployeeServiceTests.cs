@@ -127,7 +127,56 @@ namespace EmployeeManagementAPITests.Services
             _mockRepository.Verify(repo => repo.UpdateEmployeeAsync(existingEmployee, employeeRequest), Times.Once);
         }
 
+        [Test]
+        public async Task DeleteEmployeeAsync_DeletesExistingEmployee()
+        {
+            // Arrange
+            int idToDelete = 1;
+            var existingEmployee = new Employee
+            {
+                Id = idToDelete,
+                Name = "John Doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
 
+            _mockRepository.Setup(repo => repo.GetEmployeeByIdAsync(idToDelete))
+                           .ReturnsAsync(existingEmployee);
+
+            // Act
+            await _service.DeleteEmployeeAsync(idToDelete);
+
+            // Assert
+            _mockRepository.Verify(repo => repo.DeleteEmployeeAsync(idToDelete), Times.Once);
+        }
+
+        [Test]
+        public async Task SearchEmployeesAsync_ReturnsFilteredEmployees()
+        {
+            // Arrange
+            string nameToSearch = "John";
+            string emailToSearch = "example.com";
+            string departmentToSearch = "IT";
+
+            // Define the expected result
+            var expectedEmployees = new List<Employee>
+            {
+                new Employee { Id = 1, Name = "John Doe", Email = "john@example.com", Department = "IT" },
+                new Employee { Id = 2, Name = "John Smith", Email = "john.smith@example.com", Department = "IT" }
+            };
+
+            // Setup the mock repository to return the expected result
+            _mockRepository.Setup(repo => repo.SearchEmployeesAsync(nameToSearch, emailToSearch, departmentToSearch))
+                           .ReturnsAsync(expectedEmployees);
+
+            // Act
+            var result = await _service.SearchEmployeesAsync(nameToSearch, emailToSearch, departmentToSearch);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.EqualTo(expectedEmployees));
+        }
     }
 }
 
