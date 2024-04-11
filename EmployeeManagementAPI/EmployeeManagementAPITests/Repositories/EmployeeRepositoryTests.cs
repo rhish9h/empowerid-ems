@@ -128,6 +128,42 @@ namespace EmployeeManagementAPITests.Repositories
             }
         }
 
+        [Test]
+        public async Task DeleteEmployeeAsync_DeletesExistingEmployee()
+        {
+            // Arrange: Create an existing employee
+            int idToDelete = 1;
+
+            // Act: Call the method under test
+            await _repository.DeleteEmployeeAsync(idToDelete);
+
+            // Assert: Verify that the employee was deleted from the database
+            using (var context = new EmployeeContext(_options))
+            {
+                var result = await context.Employees.FindAsync(idToDelete);
+                Assert.That(result, Is.Null); // Ensure the employee does not exist in the database
+            }
+        }
+
+        [Test]
+        public async Task SearchEmployeesAsync_ReturnsFilteredEmployees()
+        {
+            // Arrange: Set up search criteria
+            string nameToSearch = "John";
+            string emailToSearch = "example.com";
+            string departmentToSearch = "IT";
+
+            // Act: Call the method under test
+            var result = await _repository.SearchEmployeesAsync(nameToSearch, emailToSearch, departmentToSearch);
+
+            // Assert: Verify that the returned employees match the search criteria
+            Assert.That(result, Is.Not.Null); // Ensure result is not null
+            Assert.That(result.Count(), Is.EqualTo(1)); // Ensure only one employee is returned
+            var filteredEmployee = result.First();
+            Assert.That(filteredEmployee.Name.Contains(nameToSearch, StringComparison.OrdinalIgnoreCase)); // Ensure name matches search criteria
+            Assert.That(filteredEmployee.Email.Contains(emailToSearch, StringComparison.OrdinalIgnoreCase)); // Ensure email matches search criteria
+            Assert.That(filteredEmployee.Department.Contains(departmentToSearch, StringComparison.OrdinalIgnoreCase)); // Ensure department matches search criteria
+        }
     }
 }
 
