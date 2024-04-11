@@ -38,6 +38,71 @@ namespace EmployeeManagementAPITests.Services
             // Assert
             Assert.That(result, Is.EqualTo(expectedEmployees));
         }
+
+        [Test]
+        public async Task GetEmployeeByIdAsync_ReturnsCorrectEmployee()
+        {
+            // Arrange
+            int idToFind = 1;
+            var expectedEmployee = new Employee
+            {
+                Id = idToFind,
+                Name = "John Doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+
+            _mockRepository.Setup(repo => repo.GetEmployeeByIdAsync(idToFind)).ReturnsAsync(expectedEmployee);
+
+            // Act
+            var result = await _service.GetEmployeeByIdAsync(idToFind);
+
+            // Assert
+            Assert.That(result, Is.Not.Null); // Ensure result is not null
+            Assert.That(result.Id, Is.EqualTo(expectedEmployee.Id)); // Ensure correct employee is returned
+            Assert.That(result.Name, Is.EqualTo(expectedEmployee.Name));
+            Assert.That(result.Email, Is.EqualTo(expectedEmployee.Email));
+            Assert.That(result.DateOfBirth, Is.EqualTo(expectedEmployee.DateOfBirth));
+            Assert.That(result.Department, Is.EqualTo(expectedEmployee.Department));
+        }
+
+        [Test]
+        public async Task AddEmployeeAsync_AddsNewEmployee()
+        {
+            // Arrange
+            var newEmployee = new Employee
+            {
+                Name = "New Employee",
+                Email = "new@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+            var expectedEmployee = new Employee
+            {
+                Id = 1,
+                Name = "New Employee",
+                Email = "new@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+
+            _mockRepository.Setup(repo => repo.AddEmployeeAsync(newEmployee)).ReturnsAsync(expectedEmployee);
+
+            // Act
+            var result = await _service.AddEmployeeAsync(newEmployee);
+
+            // Assert
+            Assert.That(result, Is.Not.Null); // Ensure result is not null
+            Assert.That(result.Id, Is.Not.EqualTo(0)); // Ensure employee ID is assigned
+            Assert.That(result.Name, Is.EqualTo(newEmployee.Name));
+            Assert.That(result.Email, Is.EqualTo(newEmployee.Email));
+            Assert.That(result.DateOfBirth, Is.EqualTo(newEmployee.DateOfBirth));
+            Assert.That(result.Department, Is.EqualTo(newEmployee.Department));
+        }
+
+
+
     }
 }
 
