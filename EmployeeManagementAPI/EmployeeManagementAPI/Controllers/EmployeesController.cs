@@ -39,7 +39,7 @@ namespace EmployeeManagementAPI.Controllers
         public async Task<ActionResult<IEnumerable<Employee>>> SearchEmployees(string name = null,
             string email = null, string department = null)
         {
-            var employees = await _service.GetEmployeesAsync();
+            var employees = await _service.SearchEmployeesAsync(name, email, department);
             return Ok(employees);
         }
 

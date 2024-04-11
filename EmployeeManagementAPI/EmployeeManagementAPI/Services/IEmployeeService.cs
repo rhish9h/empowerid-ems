@@ -10,5 +10,6 @@ namespace EmployeeManagementAPI.Services
         Task<Employee> AddEmployeeAsync(Employee employee);
         Task UpdateEmployeeAsync(Employee employee, Contracts.EmployeeRequest employeeRequest);
         Task DeleteEmployeeAsync(int id);
+        Task<IEnumerable<Employee>> SearchEmployeesAsync(string name, string email, string department);
     }
 }

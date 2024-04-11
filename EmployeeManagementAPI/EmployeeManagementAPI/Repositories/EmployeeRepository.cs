@@ -53,6 +53,32 @@ namespace EmployeeManagementAPI.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<IEnumerable<Employee>> SearchEmployeesAsync(string name,
+            string email, string department)
+        {
+            IQueryable<Employee> query = _context.Employees;
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                query = query.Where(e => e.Name.Contains(name,
+                    StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                query = query.Where(e => e.Email.Contains(email,
+                    StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(department))
+            {
+                query = query.Where(e => e.Department.Contains(department,
+                    StringComparison.OrdinalIgnoreCase));
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }
 

@@ -40,6 +40,12 @@ namespace EmployeeManagementAPI.Services
         {
             await _repository.DeleteEmployeeAsync(id);
         }
+
+        public async Task<IEnumerable<Employee>> SearchEmployeesAsync(string name,
+            string email, string department)
+        {
+            return await _repository.SearchEmployeesAsync(name, email, department);
+        }
     }
 }
 
