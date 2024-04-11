@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1706.11
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagementAPI", "EmployeeManagementAPI\EmployeeManagementAPI.csproj", "{EAF81E60-2DE7-49A5-8E42-C8FDC1273FF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagementAPITests", "EmployeeManagementAPITests\EmployeeManagementAPITests.csproj", "{9F999617-5F8B-42CA-B556-D26F580ACEC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EAF81E60-2DE7-49A5-8E42-C8FDC1273FF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAF81E60-2DE7-49A5-8E42-C8FDC1273FF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAF81E60-2DE7-49A5-8E42-C8FDC1273FF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F999617-5F8B-42CA-B556-D26F580ACEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F999617-5F8B-42CA-B556-D26F580ACEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F999617-5F8B-42CA-B556-D26F580ACEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F999617-5F8B-42CA-B556-D26F580ACEC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
