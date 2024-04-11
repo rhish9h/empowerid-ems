@@ -81,7 +81,7 @@ namespace EmployeeManagementAPITests.Controllers
         {
             // Arrange
             int invalidId = 100; // Assuming an ID that doesn't exist
-            Employee ?nullEmployee = null;
+            Employee? nullEmployee = null;
             _mockService.Setup(serv => serv.GetEmployeeByIdAsync(invalidId)).ReturnsAsync(nullEmployee);
 
             // Act
@@ -90,6 +90,41 @@ namespace EmployeeManagementAPITests.Controllers
             // Assert
             Assert.That(result.Result, Is.InstanceOf<NotFoundResult>());
         }
+
+        [Test]
+        public async Task SearchEmployees_WithValidSearchParams_ReturnsOkObjectResult()
+        {
+            // Arrange
+            string name = "John";
+            string email = "john@example.com";
+            string department = "IT";
+
+            var expectedEmployees = new List<Employee>
+            {
+                new Employee { Id = 1, Name = "John Doe", Email = "john@example.com", Department = "IT" },
+                new Employee { Id = 4, Name = "John Smith", Email = "john@example.com", Department = "IT" }
+            };
+
+            _mockService.Setup(repo => repo.SearchEmployeesAsync(name, email, department)).ReturnsAsync(expectedEmployees);
+
+            // Act
+            var result = await _controller.SearchEmployees(name, email, department);
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            var okResult = (OkObjectResult)result.Result;
+
+            Assert.That(okResult.Value, Is.InstanceOf<List<Employee>>());
+            var employees = (List<Employee>)okResult.Value;
+
+            Assert.That(employees.Count, Is.EqualTo(expectedEmployees.Count));
+
+            foreach (var expectedEmployee in expectedEmployees)
+            {
+                Assert.That(employees.Any(e => e.Id == expectedEmployee.Id), Is.True);
+            }
+        }
+
     }
 }
 
