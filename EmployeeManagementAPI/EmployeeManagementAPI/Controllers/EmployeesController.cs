@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using EmployeeManagementAPI.Models;
+using EmployeeManagementAPI.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagementAPI.Controllers
 {
@@ -8,43 +8,38 @@ namespace EmployeeManagementAPI.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly EmployeeContext _context;
+        private readonly IEmployeeService _service;
 
-        public EmployeesController(EmployeeContext context)
+        public EmployeesController(IEmployeeService service)
         {
-            _context = context;
+            _service = service;
         }
 
-        // GET: api/employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            if (_context.Employees == null)
-            {
-                return NotFound();
-            }
-            return await _context.Employees.ToListAsync();
+            var employees = await _service.GetEmployeesAsync();
+            return Ok(employees);
         }
 
-        // GET: api/employees/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
-            if (_context.Employees == null)
-            {
-                return NotFound();
-            }
-            var employee = await _context.Employees.FindAsync(id);
-
+            var employee = await _service.GetEmployeeByIdAsync(id);
             if (employee == null)
             {
                 return NotFound();
             }
-
-            return employee;
+            return Ok(employee);
         }
 
-        // PUT: api/employees/5
+        [HttpPost]
+        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
+        {
+            var newEmployee = await _service.AddEmployeeAsync(employee);
+            return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee(int id, Employee employee)
         {
@@ -53,64 +48,15 @@ namespace EmployeeManagementAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(employee).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmployeeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _service.UpdateEmployeeAsync(employee);
             return NoContent();
         }
 
-        // POST: api/employees
-        [HttpPost]
-        public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
-        {
-            if (_context.Employees == null)
-            {
-                return Problem("Entity set 'EmployeeContext.Employees'  is null.");
-            }
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
-        }
-
-        // DELETE: api/employees/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            if (_context.Employees == null)
-            {
-                return NotFound();
-            }
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
-
+            await _service.DeleteEmployeeAsync(id);
             return NoContent();
-        }
-
-        private bool EmployeeExists(int id)
-        {
-            return (_context.Employees?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
