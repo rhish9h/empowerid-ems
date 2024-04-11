@@ -30,7 +30,7 @@ namespace EmployeeManagementAPITests.Controllers
                 new Employee { Id = 2, Name = "Jane Smith", Email = "jane@example.com", Department = "HR" }
             };
 
-            _mockService.Setup(repo => repo.GetEmployeesAsync()).ReturnsAsync(expectedEmployees);
+            _mockService.Setup(serv => serv.GetEmployeesAsync()).ReturnsAsync(expectedEmployees);
 
             // Act
             var result = await _controller.GetEmployees();
@@ -58,7 +58,7 @@ namespace EmployeeManagementAPITests.Controllers
                 Department = "IT"
             };
 
-            _mockService.Setup(repo => repo.GetEmployeeByIdAsync(validId)).ReturnsAsync(expectedEmployee);
+            _mockService.Setup(serv => serv.GetEmployeeByIdAsync(validId)).ReturnsAsync(expectedEmployee);
 
             // Act
             var result = await _controller.GetEmployee(validId);
@@ -81,7 +81,8 @@ namespace EmployeeManagementAPITests.Controllers
         {
             // Arrange
             int invalidId = 100; // Assuming an ID that doesn't exist
-            _mockService.Setup(repo => repo.GetEmployeeByIdAsync(invalidId)).ReturnsAsync((Employee)null);
+            Employee ?nullEmployee = null;
+            _mockService.Setup(serv => serv.GetEmployeeByIdAsync(invalidId)).ReturnsAsync(nullEmployee);
 
             // Act
             var result = await _controller.GetEmployee(invalidId);
