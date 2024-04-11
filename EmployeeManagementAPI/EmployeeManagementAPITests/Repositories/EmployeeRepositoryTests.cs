@@ -1,4 +1,5 @@
 ﻿using System;
+using EmployeeManagementAPI.Contracts;
 using EmployeeManagementAPI.Models;
 using EmployeeManagementAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -80,6 +81,53 @@ namespace EmployeeManagementAPITests.Repositories
             Assert.That(result.DateOfBirth, Is.EqualTo(expectedEmployee.DateOfBirth));
             Assert.That(result.Department, Is.EqualTo(expectedEmployee.Department));
         }
+
+        [Test]
+        public async Task AddEmployeeAsync_AddsNewEmployee()
+        {
+            // Arrange: Create a new employee to add
+            var newEmployee = new Employee { Name = "New Employee", Email = "new@example.com", DateOfBirth = new DateTime(1990, 1, 1), Department = "IT" };
+
+            // Act: Call the method under test
+            await _repository.AddEmployeeAsync(newEmployee);
+
+            // Assert: Verify that the employee was added to the database
+            using (var context = new EmployeeContext(_options))
+            {
+                var result = await context.Employees.FindAsync(newEmployee.Id);
+                Assert.That(result, Is.Not.Null); // Ensure the employee is not null
+                Assert.That(result.Id, Is.EqualTo(newEmployee.Id)); // Ensure correct employee is returned
+                Assert.That(result.Name, Is.EqualTo(newEmployee.Name));
+                Assert.That(result.Email, Is.EqualTo(newEmployee.Email));
+                Assert.That(result.DateOfBirth, Is.EqualTo(newEmployee.DateOfBirth));
+                Assert.That(result.Department, Is.EqualTo(newEmployee.Department));
+            }
+        }
+
+        [Test]
+        public async Task UpdateEmployeeAsync_UpdatesExistingEmployee()
+        {
+            // Arrange: Create an existing employee and an updated employee request
+            int existingEmployeeId = 1;
+            var existingEmployee = new Employee { Id = existingEmployeeId, Name = "John Doe", Email = "john@example.com", DateOfBirth = new DateTime(1990, 1, 1), Department = "IT" };
+            var updatedEmployeeRequest = new EmployeeRequest("Updated John Doe", "updated.john@example.com", new DateTime(1990, 1, 1), "HR");
+
+            // Act: Call the method under test
+            await _repository.UpdateEmployeeAsync(existingEmployee, updatedEmployeeRequest);
+
+            // Assert: Verify that the employee was updated in the database
+            using (var context = new EmployeeContext(_options))
+            {
+                var result = await context.Employees.FindAsync(existingEmployeeId);
+                Assert.That(result, Is.Not.Null); // Ensure the employee is not null
+                Assert.That(result.Id, Is.EqualTo(existingEmployeeId)); // Ensure correct employee is returned
+                Assert.That(result.Name, Is.EqualTo(updatedEmployeeRequest.Name)); // Check if the name is updated
+                Assert.That(result.Email, Is.EqualTo(updatedEmployeeRequest.Email)); // Check if the email is updated
+                Assert.That(result.DateOfBirth, Is.EqualTo(updatedEmployeeRequest.DateOfBirth)); // Check if the date of birth is updated
+                Assert.That(result.Department, Is.EqualTo(updatedEmployeeRequest.Department)); // Check if the department is updated
+            }
+        }
+
     }
 }
 
