@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagementAPITests.Repositories
 {
+    [TestFixture]
     public class EmployeeRepositoryTests
     {
         private EmployeeRepository _repository;
