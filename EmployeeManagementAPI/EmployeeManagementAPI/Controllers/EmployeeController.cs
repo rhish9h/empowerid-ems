@@ -7,15 +7,16 @@ namespace EmployeeManagementAPI.Controllers
 {
     [Route("api/employees")]
     [ApiController]
-    public class EmployeesController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _service;
 
-        public EmployeesController(IEmployeeService service)
+        public EmployeeController(IEmployeeService service)
         {
             _service = service;
         }
 
+        // GET: api/employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
@@ -23,6 +24,7 @@ namespace EmployeeManagementAPI.Controllers
             return Ok(employees);
         }
 
+        // GET: api/employees/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
@@ -43,6 +45,7 @@ namespace EmployeeManagementAPI.Controllers
             return Ok(employees);
         }
 
+        // POST: api/employees
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(EmployeeRequest employeeRequest)
         {
@@ -58,6 +61,7 @@ namespace EmployeeManagementAPI.Controllers
             return CreatedAtAction(nameof(GetEmployee), new { id = newEmployee.Id }, newEmployee);
         }
 
+        // PUT: api/employees/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee(int id, EmployeeRequest employeeRequest)
         {
@@ -72,6 +76,7 @@ namespace EmployeeManagementAPI.Controllers
             return NoContent();
         }
 
+        // DELETE: api/employees/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
