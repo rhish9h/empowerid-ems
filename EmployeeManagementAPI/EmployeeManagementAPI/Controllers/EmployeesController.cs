@@ -34,6 +34,15 @@ namespace EmployeeManagementAPI.Controllers
             return Ok(employee);
         }
 
+        // GET: api/employees/search
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Employee>>> SearchEmployees(string name = null,
+            string email = null, string department = null)
+        {
+            var employees = await _service.GetEmployeesAsync();
+            return Ok(employees);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(EmployeeRequest employeeRequest)
         {
