@@ -106,7 +106,7 @@ namespace EmployeeManagementAPITests.Controllers
                 new Employee { Id = 4, Name = "John Smith", Email = "john@example.com", Department = "IT" }
             };
 
-            _mockService.Setup(repo => repo.SearchEmployeesAsync(name, email, department)).ReturnsAsync(expectedEmployees);
+            _mockService.Setup(serv => serv.SearchEmployeesAsync(name, email, department)).ReturnsAsync(expectedEmployees);
 
             // Act
             var result = await _controller.SearchEmployees(name, email, department);
@@ -136,7 +136,7 @@ namespace EmployeeManagementAPITests.Controllers
                 Department = "IT"
             };
 
-            _mockService.Setup(repo => repo.AddEmployeeAsync(It.IsAny<Employee>())).ReturnsAsync(employee);
+            _mockService.Setup(serv => serv.AddEmployeeAsync(It.IsAny<Employee>())).ReturnsAsync(employee);
 
             // Act
             var result = await _controller.PostEmployee(employeeRequest);
@@ -166,16 +166,40 @@ namespace EmployeeManagementAPITests.Controllers
                 Department = "IT"
             };
 
-            _mockService.Setup(repo => repo.GetEmployeeByIdAsync(id)).ReturnsAsync(existingEmployee);
+            _mockService.Setup(serv => serv.GetEmployeeByIdAsync(id)).ReturnsAsync(existingEmployee);
 
             // Act
             var result = await _controller.PutEmployee(id, employeeRequest);
 
             // Assert
             Assert.That(result, Is.InstanceOf<NoContentResult>());
+            _mockService.Verify(serv => serv.UpdateEmployeeAsync(existingEmployee, employeeRequest), Times.Once);
         }
 
+        [Test]
+        public async Task DeleteEmployee_WithValidId_ReturnsNoContent()
+        {
+            // Arrange
+            int idToDelete = 1;
 
+            var existingEmployee = new Employee
+            {
+                Id = idToDelete,
+                Name = "John Doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+
+            _mockService.Setup(serv => serv.GetEmployeeByIdAsync(idToDelete)).ReturnsAsync(existingEmployee);
+
+            // Act
+            var result = await _controller.DeleteEmployee(idToDelete);
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<NoContentResult>());
+            _mockService.Verify(serv => serv.DeleteEmployeeAsync(idToDelete), Times.Once);
+        }
     }
 }
 
