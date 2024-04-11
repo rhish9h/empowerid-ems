@@ -44,6 +44,51 @@ namespace EmployeeManagementAPITests.Controllers
 
             Assert.That(employees, Is.EqualTo(expectedEmployees));
         }
+
+        [Test]
+        public async Task GetEmployee_WithValidId_ReturnsOkObjectResult()
+        {
+            // Arrange
+            int validId = 1;
+            var expectedEmployee = new Employee
+            {
+                Id = validId,
+                Name = "John Doe",
+                Email = "john@example.com",
+                Department = "IT"
+            };
+
+            _mockService.Setup(repo => repo.GetEmployeeByIdAsync(validId)).ReturnsAsync(expectedEmployee);
+
+            // Act
+            var result = await _controller.GetEmployee(validId);
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            var okResult = (OkObjectResult)result.Result;
+
+            Assert.That(okResult.Value, Is.InstanceOf<Employee>());
+            var employee = (Employee)okResult.Value;
+
+            Assert.That(employee.Id, Is.EqualTo(validId));
+            Assert.That(employee.Name, Is.EqualTo(expectedEmployee.Name));
+            Assert.That(employee.Email, Is.EqualTo(expectedEmployee.Email));
+            Assert.That(employee.Department, Is.EqualTo(expectedEmployee.Department));
+        }
+
+        [Test]
+        public async Task GetEmployee_WithInvalidId_ReturnsNotFoundResult()
+        {
+            // Arrange
+            int invalidId = 100; // Assuming an ID that doesn't exist
+            _mockService.Setup(repo => repo.GetEmployeeByIdAsync(invalidId)).ReturnsAsync((Employee)null);
+
+            // Act
+            var result = await _controller.GetEmployee(invalidId);
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<NotFoundResult>());
+        }
     }
 }
 
