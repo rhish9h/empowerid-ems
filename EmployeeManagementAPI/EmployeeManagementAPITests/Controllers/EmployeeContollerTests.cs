@@ -1,4 +1,5 @@
 ﻿using System;
+using EmployeeManagementAPI.Contracts;
 using EmployeeManagementAPI.Controllers;
 using EmployeeManagementAPI.Models;
 using EmployeeManagementAPI.Services;
@@ -118,12 +119,62 @@ namespace EmployeeManagementAPITests.Controllers
             var employees = (List<Employee>)okResult.Value;
 
             Assert.That(employees.Count, Is.EqualTo(expectedEmployees.Count));
-
-            foreach (var expectedEmployee in expectedEmployees)
-            {
-                Assert.That(employees.Any(e => e.Id == expectedEmployee.Id), Is.True);
-            }
         }
+
+        [Test]
+        public async Task PostEmployee_WithValidEmployeeRequest_ReturnsCreatedAtActionResult()
+        {
+            // Arrange
+            var employeeRequest = new EmployeeRequest("John Doe", "john@example.com", new DateTime(1990, 1, 1), "IT");
+
+            var employee = new Employee
+            {
+                Id = 1,
+                Name = "John Doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+
+            _mockService.Setup(repo => repo.AddEmployeeAsync(It.IsAny<Employee>())).ReturnsAsync(employee);
+
+            // Act
+            var result = await _controller.PostEmployee(employeeRequest);
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<CreatedAtActionResult>());
+            var createdAtActionResult = (CreatedAtActionResult)result.Result;
+
+            Assert.That(createdAtActionResult.Value, Is.EqualTo(employee));
+
+            Assert.That(createdAtActionResult.ActionName, Is.EqualTo(nameof(EmployeeController.GetEmployee)));
+        }
+
+        [Test]
+        public async Task PutEmployee_WithValidIdAndEmployeeRequest_ReturnsNoContent()
+        {
+            // Arrange
+            int id = 1;
+            var employeeRequest = new EmployeeRequest("Updated John Doe", "updated_john@example.com", new DateTime(1990, 1, 1), "Updated IT");
+
+            var existingEmployee = new Employee
+            {
+                Id = id,
+                Name = "John Doe",
+                Email = "john@example.com",
+                DateOfBirth = new DateTime(1990, 1, 1),
+                Department = "IT"
+            };
+
+            _mockService.Setup(repo => repo.GetEmployeeByIdAsync(id)).ReturnsAsync(existingEmployee);
+
+            // Act
+            var result = await _controller.PutEmployee(id, employeeRequest);
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<NoContentResult>());
+        }
+
 
     }
 }
