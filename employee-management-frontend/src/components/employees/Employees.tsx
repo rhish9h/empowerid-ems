@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import SearchEmployees from "../searchEmployees/SearchEmployees";
 import { useState } from "react";
 import EditEmployee from "../editEmployee/EditEmployee";
+import DeleteEmployee from "../deleteEmployee/DeleteEmployee";
 
 export interface Employee {
     id: number;
@@ -23,16 +24,22 @@ const Employees = ({ employees, setEmployees }: {
         const formattedDate = date.toISOString().split('T')[0];
         return formattedDate;
     }
-    const [openModal, setOpenModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [currentEmp, setCurrentEmp] = useState<Employee>();
     const handleEdit = async (emp: Employee) => {
         setCurrentEmp(emp);
-        setOpenModal(true);
+        setOpenEditModal(true);
+    }
+    const handleDelete = async (emp: Employee) => {
+        setCurrentEmp(emp);
+        setOpenDeleteModal(true);
     }
 
     return (
         <>
-            <EditEmployee openModal={openModal} setOpenModal={setOpenModal} employee={currentEmp} />
+            <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} />
+            <DeleteEmployee openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} employee={currentEmp} />
             <Card className="h-full">
                 <SearchEmployees />
                 <div className="emp-list flex-grow">
@@ -62,7 +69,7 @@ const Employees = ({ employees, setEmployees }: {
                                             <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500" onClick={() => handleEdit(emp)}>
                                                 Edit
                                             </a>
-                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 ml-4">
+                                            <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 ml-4" onClick={() => handleDelete(emp)}>
                                                 Delete
                                             </a>
                                         </Table.Cell>
