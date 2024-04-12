@@ -12,8 +12,9 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
     }
   });
 
-  if (!response.ok) {
-    console.log('Failed to fetch employees');
+  if (!response?.ok) {
+    console.error('Failed to fetch employees');
+    return [];
   }
 
   const responseData = await response.json();
