@@ -1,10 +1,10 @@
 import MyNavbar from "./components/navbar/MyNavbar";
 import AddEmployee from "./components/addEmployee/AddEmployee";
-import Employees from "./components/employees/Employees";
+import Employees, { Employee } from "./components/employees/Employees";
 import { useState } from "react";
 
 function App() {
-  const [employees, setEmployees] = useState([
+  const [employees, setEmployees] = useState<Employee[]>([
     { id: 1, name: "string", email: "string", dateOfBirth: "2024-04-12T04:29:11.606Z", department: "string" },
     { id: 2, name: "string", email: "string", dateOfBirth: "2024-04-12T04:29:11.606Z", department: "string" }
   ]);
