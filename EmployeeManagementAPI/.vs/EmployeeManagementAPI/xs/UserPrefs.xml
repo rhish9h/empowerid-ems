@@ -1,46 +1,49 @@
 ﻿<Properties StartupConfiguration="{EAF81E60-2DE7-49A5-8E42-C8FDC1273FF3}|https">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.EmployeeManagementAPI PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="EmployeeManagementAPITests/Repositories/EmployeeRepositoryTests.cs">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="EmployeeManagementAPITests/Controllers/EmployeeContollerTests.cs">
     <Files>
-      <File FileName="EmployeeManagementAPI/Controllers/EmployeesController.cs" Line="61" Column="26" />
-      <File FileName="EmployeeManagementAPI/Services/IEmployeeService.cs" Line="13" Column="58" />
-      <File FileName="EmployeeManagementAPI/Services/EmployeeService.cs" Line="45" Column="13" />
-      <File FileName="EmployeeManagementAPI/Repositories/IEmployeeRepository.cs" Line="13" Column="104" />
-      <File FileName="EmployeeManagementAPI/Repositories/EmployeeRepository.cs" Line="64" Column="63" />
-      <File FileName="EmployeeManagementAPI/Models/Employee.cs" Line="1" Column="1" />
-      <File FileName="EmployeeManagementAPI/Tests/EmployeeRepositoryTests.cs" Line="41" Column="64" />
-      <File FileName="EmployeeManagementAPITests/UnitTest1.cs" Line="14" Column="6" />
+      <File FileName="EmployeeManagementAPITests/Controllers/EmployeeContollerTests.cs" Line="12" Column="40" />
+      <File FileName="EmployeeManagementAPI/Controllers/EmployeesController.cs" Line="92" Column="10" />
+      <File FileName="EmployeeManagementAPI/Errors/ErrorHandlingMiddleware.cs" Line="1" Column="1" />
+      <File FileName="EmployeeManagementAPI/Program.cs" Line="35" Column="46" />
+      <File FileName="EmployeeManagementAPI/Services/EmployeeService.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="EmployeeManagementAPI" expanded="True">
-            <Node name="EmployeeManagementAPI">
+          <Node name="EmployeeManagementAPI">
+            <Node name="EmployeeManagementAPI" expanded="True">
+              <Node name="Dependencies" expanded="True" />
               <Node name="Contracts" expanded="True" />
               <Node name="Controllers" expanded="True" />
+              <Node name="Errors" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Repositories" expanded="True" />
               <Node name="Services" expanded="True" />
             </Node>
-            <Node name="EmployeeManagementAPITests" selected="True" />
+            <Node name="EmployeeManagementAPITests">
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Controllers">
+                <Node name="EmployeeContollerTests.cs" selected="True" />
+              </Node>
+              <Node name="Repositories" expanded="True" />
+              <Node name="Services" expanded="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="EmployeeManagementAPI" expanded="True" selected="True" />
+          <Node name="EmployeeManagementAPI" selected="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.ItemProperties.EmployeeManagementAPI PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
 </Properties>
