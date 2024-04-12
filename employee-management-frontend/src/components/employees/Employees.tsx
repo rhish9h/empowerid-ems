@@ -7,6 +7,12 @@ const Employees = ({ employees, setEmployees }: {
     setEmployees: Dispatch<SetStateAction<{ id: number; name: string; email: string; dateOfBirth: string; department: string; }[]>>
 }) => {
     const setEmplo = setEmployees;
+    const parseDate = (timestamp: string) => {
+        const date = new Date(timestamp);
+        // Get the date part in YYYY-MM-DD format
+        const formattedDate = date.toISOString().split('T')[0];
+        return formattedDate;
+    }
 
     return (
         <Card className="h-full">
@@ -33,7 +39,7 @@ const Employees = ({ employees, setEmployees }: {
                                         {emp.name}
                                     </Table.Cell>
                                     <Table.Cell>{emp.email}</Table.Cell>
-                                    <Table.Cell>{emp.dateOfBirth}</Table.Cell>
+                                    <Table.Cell>{parseDate(emp.dateOfBirth)}</Table.Cell>
                                     <Table.Cell>
                                         <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
                                             Edit
