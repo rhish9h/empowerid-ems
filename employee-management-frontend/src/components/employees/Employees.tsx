@@ -14,8 +14,8 @@ export interface Employee {
 };
 
 const Employees = ({ employees, setEmployees }: {
-    employees: Employee[],
-    setEmployees: Dispatch<SetStateAction<Employee[]>>
+    employees: Employee[] | undefined,
+    setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
 }) => {
     const setEmplo = setEmployees;
     const parseDate = (timestamp: string) => {
@@ -57,7 +57,7 @@ const Employees = ({ employees, setEmployees }: {
                             </Table.Head>
 
                             <Table.Body className="divide-y">
-                                {employees.map((emp: any) => (
+                                {employees?.map((emp: any) => (
                                     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={emp.id}>
                                         <Table.Cell>{emp.id}</Table.Cell>
                                         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -65,6 +65,7 @@ const Employees = ({ employees, setEmployees }: {
                                         </Table.Cell>
                                         <Table.Cell>{emp.email}</Table.Cell>
                                         <Table.Cell>{parseDate(emp.dateOfBirth)}</Table.Cell>
+                                        <Table.Cell>{emp.department}</Table.Cell>
                                         <Table.Cell>
                                             <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500" onClick={() => handleEdit(emp)}>
                                                 Edit

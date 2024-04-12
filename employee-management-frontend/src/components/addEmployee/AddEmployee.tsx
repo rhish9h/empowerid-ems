@@ -1,6 +1,11 @@
 import { Button, Card, Label, TextInput } from "flowbite-react";
+import { Dispatch, SetStateAction } from "react";
+import { Employee } from "../employees/Employees";
+import { getAllEmployees } from "../../App";
 
-const AddEmployee = () => {
+const AddEmployee = ({ setEmployees }: {
+    setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
+}) => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "";
     const ADD_EMP_URL = BACKEND_URL + "/api/employees";
 
@@ -36,6 +41,8 @@ const AddEmployee = () => {
 
             const responseData = await response.json();
             console.log('Response:', responseData);
+            const newEmployees = await getAllEmployees();
+            setEmployees(newEmployees);
         } catch (error) {
             console.error('Error:', error);
         }
