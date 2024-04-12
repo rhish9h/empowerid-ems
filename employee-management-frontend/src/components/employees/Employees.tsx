@@ -1,5 +1,6 @@
 import { Card, Table } from "flowbite-react";
 import { Dispatch, SetStateAction } from "react";
+import SearchEmployees from "../searchEmployees/SearchEmployees";
 
 const Employees = ({ employees, setEmployees }: {
     employees: { id: number; name: string; email: string; dateOfBirth: string; department: string; }[],
@@ -9,9 +10,7 @@ const Employees = ({ employees, setEmployees }: {
 
     return (
         <Card className="h-full">
-            <div className="search flex-grow-0 flex-shrink-0 py-4">
-                Search
-            </div>
+            <SearchEmployees />
             <div className="emp-list flex-grow">
                 <div className="overflow-x-auto">
                     <Table hoverable>
