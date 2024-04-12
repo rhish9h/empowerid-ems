@@ -1,12 +1,38 @@
 import { Button, Modal } from "flowbite-react";
 import { Dispatch, SetStateAction } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { BACKEND_URL } from "../../constants";
+import { Employee } from "../employees/Employees";
+import { getAllEmployees } from "../../App";
 
-const DeleteEmployee = ({ openModal, setOpenModal, employee }: {
+const DeleteEmployee = ({ openModal, setOpenModal, employee, setEmployees }: {
     openModal: boolean,
     setOpenModal: Dispatch<SetStateAction<boolean>>,
-    employee: { id: number; name: string; email: string; dateOfBirth: string; department: string; } | undefined
+    employee: { id: number; name: string; email: string; dateOfBirth: string; department: string; } | undefined,
+    setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
 }) => {
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/employees/${employee?.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                console.error('Failed to delete employee');
+                return;
+            }
+
+            console.log('Employee deleted successfully');
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        const newEmployees = await getAllEmployees();
+        setEmployees(newEmployees);
+        setOpenModal(false);
+    }
 
     return (
         <>
@@ -19,7 +45,7 @@ const DeleteEmployee = ({ openModal, setOpenModal, employee }: {
                             Are you sure you want to erase this employee's data?
                         </h3>
                         <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={() => setOpenModal(false)}>
+                            <Button color="failure" onClick={handleDelete}>
                                 {"Yes, I'm sure"}
                             </Button>
                             <Button color="gray" onClick={() => setOpenModal(false)}>

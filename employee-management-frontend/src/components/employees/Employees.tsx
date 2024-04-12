@@ -38,7 +38,7 @@ const Employees = ({ employees, setEmployees }: {
     return (
         <>
             <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} />
-            <DeleteEmployee openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} employee={currentEmp} />
+            {currentEmp && <DeleteEmployee openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} employee={currentEmp} setEmployees={setEmployees} />}
             <Card className="h-full">
                 <SearchEmployees setEmployees={setEmployees} />
                 <div className="emp-list flex-grow">
