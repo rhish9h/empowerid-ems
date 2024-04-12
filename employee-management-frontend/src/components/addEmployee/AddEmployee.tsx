@@ -1,16 +1,44 @@
 import { Button, Card, Label, TextInput } from "flowbite-react";
 
 const AddEmployee = () => {
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "";
+    const ADD_EMP_URL = BACKEND_URL + "/api/employees";
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(event.currentTarget);
         const target = event.currentTarget;
         const formData = new FormData(target);
+
         const name = formData.get('emp-name') as string;
         const email = formData.get('email') as string;
         const date = formData.get('dob') as string;
         const department = formData.get('department') as string;
-        console.log(name, email, date, department);
+
+        const requestBody = {
+            name,
+            email,
+            date,
+            department
+        }
+
+        try {
+            const response = await fetch(ADD_EMP_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                console.error('Error in adding new employee.');
+            }
+
+            const responseData = await response.json();
+            console.log('Response:', responseData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     return (
