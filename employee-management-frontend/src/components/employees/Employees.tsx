@@ -38,6 +38,9 @@ const Employees = ({ employees, setEmployees }: {
                                         <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
                                             Edit
                                         </a>
+                                        <a href="#" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500 ml-4">
+                                            Delete
+                                        </a>
                                     </Table.Cell>
                                 </Table.Row>
                             ))}
