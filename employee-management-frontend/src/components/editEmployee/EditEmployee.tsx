@@ -46,7 +46,7 @@ const EditEmployee = ({ openModal, setOpenModal, employee, setEmployees }: {
             const updatedEmployee = {
                 name,
                 email,
-                date,
+                dateOfBirth,
                 department
             }
 

@@ -25,7 +25,9 @@ export const getAllEmployees = async (): Promise<Employee[]> => {
     department: item.department
   }));
 
-  return employees.reverse();
+  // Sort employees based on id in descending order
+  const sortedEmployees = employees.sort((a, b) => b.id - a.id);
+  return sortedEmployees;
 };
 
 

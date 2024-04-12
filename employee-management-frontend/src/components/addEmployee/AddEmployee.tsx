@@ -16,13 +16,13 @@ const AddEmployee = ({ setEmployees }: {
 
         const name = formData.get('emp-name') as string;
         const email = formData.get('email') as string;
-        const date = formData.get('dob') as string;
+        const dateOfBirth = new Date(formData.get('dob') as string).toISOString();
         const department = formData.get('department') as string;
 
         const requestBody = {
             name,
             email,
-            date,
+            dateOfBirth,
             department
         }
 
