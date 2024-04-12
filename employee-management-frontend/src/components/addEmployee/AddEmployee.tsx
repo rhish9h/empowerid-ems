@@ -1,8 +1,16 @@
 import { Button, Card, Label, TextInput } from "flowbite-react";
 
 const AddEmployee = () => {
-    const handleSubmit = () => {
-
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(event.currentTarget);
+        const target = event.currentTarget;
+        const formData = new FormData(target);
+        const name = formData.get('emp-name') as string;
+        const email = formData.get('email') as string;
+        const date = formData.get('dob') as string;
+        const department = formData.get('department') as string;
+        console.log(name, email, date, department);
     }
 
     return (
