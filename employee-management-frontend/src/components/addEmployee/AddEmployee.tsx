@@ -2,11 +2,11 @@ import { Button, Card, Label, TextInput } from "flowbite-react";
 import { Dispatch, SetStateAction } from "react";
 import { Employee } from "../employees/Employees";
 import { getAllEmployees } from "../../App";
+import { BACKEND_URL } from "../../constants";
 
 const AddEmployee = ({ setEmployees }: {
     setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
 }) => {
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "";
     const ADD_EMP_URL = BACKEND_URL + "/api/employees";
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

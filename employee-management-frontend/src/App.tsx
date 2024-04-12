@@ -2,8 +2,7 @@ import MyNavbar from "./components/navbar/MyNavbar";
 import AddEmployee from "./components/addEmployee/AddEmployee";
 import Employees, { Employee } from "./components/employees/Employees";
 import { useState, useEffect } from "react";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? "";
+import { BACKEND_URL } from "./constants";
 
 export const getAllEmployees = async (): Promise<Employee[]> => {
   const response = await fetch(`${BACKEND_URL}/api/employees`, {

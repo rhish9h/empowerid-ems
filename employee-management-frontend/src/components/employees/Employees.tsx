@@ -17,7 +17,6 @@ const Employees = ({ employees, setEmployees }: {
     employees: Employee[] | undefined,
     setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
 }) => {
-    const setEmplo = setEmployees;
     const parseDate = (timestamp: string) => {
         const date = new Date(timestamp);
         // Get the date part in YYYY-MM-DD format
@@ -41,7 +40,7 @@ const Employees = ({ employees, setEmployees }: {
             <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} />
             <DeleteEmployee openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} employee={currentEmp} />
             <Card className="h-full">
-                <SearchEmployees />
+                <SearchEmployees setEmployees={setEmployees} />
                 <div className="emp-list flex-grow">
                     <div className="overflow-x-auto">
                         <Table hoverable>
