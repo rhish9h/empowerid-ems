@@ -13,16 +13,20 @@ export interface Employee {
     department: string;
 };
 
+export const parseDate = (timestamp: string | undefined) => {
+    if (timestamp == null || timestamp == undefined) {
+        return '';
+    }
+    const date = new Date(timestamp);
+    // Get the date part in YYYY-MM-DD format
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+}
+
 const Employees = ({ employees, setEmployees }: {
     employees: Employee[] | undefined,
     setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
 }) => {
-    const parseDate = (timestamp: string) => {
-        const date = new Date(timestamp);
-        // Get the date part in YYYY-MM-DD format
-        const formattedDate = date.toISOString().split('T')[0];
-        return formattedDate;
-    }
     const [openEditModal, setOpenEditModal] = useState(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [currentEmp, setCurrentEmp] = useState<Employee>();
@@ -37,7 +41,7 @@ const Employees = ({ employees, setEmployees }: {
 
     return (
         <>
-            <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} />
+            {currentEmp && <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} />}
             {currentEmp && <DeleteEmployee openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} employee={currentEmp} setEmployees={setEmployees} />}
             <Card className="h-full">
                 <SearchEmployees setEmployees={setEmployees} />
