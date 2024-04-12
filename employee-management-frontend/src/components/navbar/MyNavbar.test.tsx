@@ -8,21 +8,21 @@ describe('MyNavbar Component', () => {
     expect(brandElement).toBeInTheDocument();
   });
 
-  // it('navigates to LinkedIn profile', () => {
-  //   const { getByText } = render(<MyNavbar />);
-  //   const linkedInLink = getByText('LinkedIn');
-  //   expect(linkedInLink).toHaveAttribute('href', 'https://www.linkedin.com/in/rhishabh-hattarki/');
-  // });
+  it('navigates to LinkedIn profile', () => {
+    const { getByText } = render(<MyNavbar />);
+    const linkedInLink = getByText('LinkedIn');
+    expect(linkedInLink).toHaveAttribute('href', 'https://www.linkedin.com/in/rhishabh-hattarki/');
+  });
 
-  // it('navigates to GitHub profile', () => {
-  //   const { getByText } = render(<MyNavbar />);
-  //   const gitHubLink = getByText('GitHub');
-  //   expect(gitHubLink).toHaveAttribute('href', 'https://github.com/rhish9h');
-  // });
+  it('navigates to GitHub profile', () => {
+    const { getByText } = render(<MyNavbar />);
+    const gitHubLink = getByText('GitHub');
+    expect(gitHubLink).toHaveAttribute('href', 'https://github.com/rhish9h');
+  });
 
-  // it('navigates to Portfolio', () => {
-  //   const { getByText } = render(<MyNavbar />);
-  //   const portfolioLink = getByText('Portfolio');
-  //   expect(portfolioLink).toHaveAttribute('href', 'https://rhish.in');
-  // });
+  it('navigates to Portfolio', () => {
+    const { getByText } = render(<MyNavbar />);
+    const portfolioLink = getByText('Portfolio');
+    expect(portfolioLink).toHaveAttribute('href', 'https://rhish.in');
+  });
 });
