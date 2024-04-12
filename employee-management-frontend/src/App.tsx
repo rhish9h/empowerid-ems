@@ -1,8 +1,14 @@
 import MyNavbar from "./components/navbar/MyNavbar";
 import AddEmployee from "./components/addEmployee/AddEmployee";
-import { Card } from "flowbite-react";
+import Employees from "./components/employees/Employees";
+import { useState } from "react";
 
 function App() {
+  const [employees, setEmployees] = useState([
+    { id: 1, name: "string", email: "string", dateOfBirth: "2024-04-12T04:29:11.606Z", department: "string" },
+    { id: 2, name: "string", email: "string", dateOfBirth: "2024-04-12T04:29:11.606Z", department: "string" }
+  ]);
+
   return (
     <main className="min-h-screen gap-2 dark:bg-gray-800 flex flex-col">
       <MyNavbar />
@@ -11,12 +17,10 @@ function App() {
           <AddEmployee />
         </div>
         <div className="sm:w-1/2 md:w-3/4 w-full px-4 pb-4 flex flex-col">
-          <Card className="h-full">
-            {/* Content for the second card */}
-          </Card>
+          <Employees employees={employees} setEmployees={setEmployees} />
         </div>
       </div>
-      
+
     </main>
   );
 }
