@@ -21,3 +21,9 @@ dotnet test
 Go to the browser and open the following link
 > http://localhost:5215/swagger/index.html
 
+#### How to run Frontend React Application employee-management-frontend
+```bash
+cd employee-management-frontend
+npm i
+npm run dev
+```
