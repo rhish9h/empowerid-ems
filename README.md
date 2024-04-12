@@ -27,3 +27,10 @@ cd employee-management-frontend
 npm i
 npm run dev
 ```
+
+#### How to run Frontend React Application employee-management-frontend tests
+```bash
+cd employee-management-frontend
+npm i
+npm run test
+```
