@@ -1,18 +1,21 @@
 import { Button, Label, Modal, TextInput } from "flowbite-react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
-import { parseDate } from "../employees/Employees";
+import { Employee, parseDate } from "../employees/Employees";
+import { BACKEND_URL } from "../../constants";
+import { getAllEmployees } from "../../App";
 
-const EditEmployee = ({ openModal, setOpenModal, employee }: {
+const EditEmployee = ({ openModal, setOpenModal, employee, setEmployees }: {
     openModal: boolean,
     setOpenModal: Dispatch<SetStateAction<boolean>>,
-    employee: { id: number; name: string; email: string; dateOfBirth: string; department: string; } | undefined
+    employee: { id: number; name: string; email: string; dateOfBirth: string; department: string; } | undefined,
+    setEmployees: Dispatch<SetStateAction<Employee[] | undefined>>
 }) => {
     const [name, setName] = useState(employee?.name ?? '');
     const [email, setEmail] = useState(employee?.email ?? '');
     const date = parseDate(employee?.dateOfBirth);
     const [dateOfBirth, setDateOfBirth] = useState(date);
     const [department, setDepartment] = useState(employee?.department ?? '');
-    console.log(employee, email, employee?.email);
+    // console.log(employee, email, employee?.email);
 
     // Update state when the employee prop changes
     useEffect(() => {
@@ -38,7 +41,36 @@ const EditEmployee = ({ openModal, setOpenModal, employee }: {
         setOpenModal(false);
     }
 
-    const handleSubmit = () => { }
+    const handleSubmit = async () => {
+        try {
+            const updatedEmployee = {
+                name,
+                email,
+                date,
+                department
+            }
+
+            const response = await fetch(`${BACKEND_URL}/api/employees/${employee?.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedEmployee)
+            });
+
+            if (!response.ok) {
+                console.error('Failed to edit employee');
+                return;
+            }
+
+            console.log('Employee edited successfully');
+            const newEmployees = await getAllEmployees();
+            setEmployees(newEmployees);
+            setOpenModal(false);
+        } catch (error) {
+            console.error('Error editing employee:', error);
+        }
+    }
 
     return (
         <>

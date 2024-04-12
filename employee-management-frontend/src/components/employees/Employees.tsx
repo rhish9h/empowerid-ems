@@ -41,7 +41,7 @@ const Employees = ({ employees, setEmployees }: {
 
     return (
         <>
-            {currentEmp && <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} />}
+            {currentEmp && <EditEmployee openModal={openEditModal} setOpenModal={setOpenEditModal} employee={currentEmp} setEmployees={setEmployees} />}
             {currentEmp && <DeleteEmployee openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} employee={currentEmp} setEmployees={setEmployees} />}
             <Card className="h-full">
                 <SearchEmployees setEmployees={setEmployees} />
